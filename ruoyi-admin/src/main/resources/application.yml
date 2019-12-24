@@ -90,6 +90,7 @@ pagehelper:
 
 # Shiro
 shiro:
+
   user:
     # 登录地址
     loginUrl: /login
