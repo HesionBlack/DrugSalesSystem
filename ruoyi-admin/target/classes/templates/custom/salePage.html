@@ -6,52 +6,36 @@
     <th:block th:include="include :: ztree-css"/>
 </head>
 <body class="gray-bg">
-<div class="ui-layout-center">
-    <div class="container-div">
-        <div class="row">
-            <div class="col-sm-12 search-collapse">
-                <form id="user-form">
-                    <div class="select-list">
-                        <ul>
-                            <li>
-                                药品名称：<input type="text" name="name"/>
-                            </li>
-                            <li>
-                                药品类型：<select name="typeId" th:with="type=${@dict.getType('sys_drug_type')}">
-                                <option value="">所有</option>
-                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                            </select>
-                            </li>
-                            <li class="select-time">
-                                <label>上架时间： </label>
-                                <input type="text" class="time-input" id="startTime" placeholder="开始时间"
-                                       name="params[beginTime]"/>
-                                <span>-</span>
-                                <input type="text" class="time-input" id="endTime" placeholder="结束时间"
-                                       name="params[endTime]"/>
-                            </li>
-                            <li>
-                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
-                                        class="fa fa-search"></i>&nbsp;搜索</a>
-                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
-                                        class="fa fa-refresh"></i>重置</a>
-                            </li>
-                        </ul>
+<div class="ui-layout-center container" >
+<!--        <div class="row" th:each="drug:${drugs}" >-->
+<!--                    <li class="span5">-->
+<!--                        <div class="thumbnail">-->
+<!--                            <img th:src="*{drug.imageUrl}" alt="头">-->
+<!--                            <div class="caption">-->
+<!--                                <h3 th:text="*{drug.name}"></h3>-->
+<!--                                <p th:text="*{drug.effect}">.</p>-->
+<!--                                <span>上架时间：<p th:text="${#dates.format(drug.createTime,'yyyy-MM-dd HH:mm')}">.</p></span>-->
+<!--                                <p><a  class="btn btn-primary" role="button">购买</a> <a href="#" class="btn btn-default" role="button">查看详情</a></p>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </li>-->
+<!--            </div>-->
+    <div class="container">
+        <ul class="thumbnails"  style="list-style: none">
+            <li class="span5" th:each="drug:${drugs}">
+                <div class="col-sm-6 col-md-4" >
+                    <div class="thumbnail">
+                        <img th:src="*{drug.imageUrl}" th:alt="*{drug.imageUrl}">
+                        <div class="caption">
+                            <h3 th:text="*{drug.name}"></h3>
+                            <p th:text="*{drug.effect}">.</p>
+                            <span>上架时间：<p th:text="${#dates.format(drug.createTime,'yyyy-MM-dd HH:mm')}">.</p></span>
+                            <p><a  onclick="" class="btn btn-primary" role="button">购买</a> <a href="#" class="btn btn-default" role="button">查看详情</a></p>
+                        </div>
                     </div>
-                </form>
-            </div>
-
-            <div class="btn-group-sm" id="toolbar" role="group">
-                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:drug:add">
-                    <i class="fa fa-plus"></i> 新增
-                </a>
-            </div>
-
-            <div class="col-sm-12 select-table table-striped">
-                <table id="bootstrap-table"></table>
-            </div>
-        </div>
-    </div>
+                </div>
+            </li>
+        </ul>
 </div>
 
 <th:block th:include="include :: footer"/>

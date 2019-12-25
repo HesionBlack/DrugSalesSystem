@@ -18,7 +18,6 @@ import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.file.FileUploadUtils;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysDrug;
-import com.ruoyi.system.domain.SysDrugType;
 import com.ruoyi.system.service.ISysDrugService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +46,7 @@ public class SystemDrugController extends BaseController {
     private ServerConfig serverConfig;
     @Autowired
     ISysDrugService sysDrugService;
+
     @GetMapping("")
     public String drug(SysDrug sysDrug) {
 
@@ -61,6 +61,7 @@ public class SystemDrugController extends BaseController {
         List<SysDrug> list = sysDrugService.selectDrugList(sysDrug);
         return getDataTable(list);
     }
+
     /**
      * 展示图片
      */
@@ -69,23 +70,24 @@ public class SystemDrugController extends BaseController {
         mmap.put("imageUrl", sysDrugService.findImageUrl(id));
         return prefix + "/showImage";
     }
+
     /**
      * 药物增加页面跳转接口
      */
     @GetMapping("/add")
     @RequiresPermissions("system:drug:add")
     public String add(ModelMap mmap) {
-//        List<SysDrugType> drugType = sysDrugService.getDrugType();
-        mmap.put("types",sysDrugService.getDrugType());
+        mmap.put("types", sysDrugService.getDrugType());
         return prefix + "/add";
     }
+
     /**
-     *@Author hst
-     *@Description //TODO 新增宠物页面请求接口
-     *@Date 上午8:40 2019/12/21
-     *@Param [file, sysPet]
-     * @return com.ruoyi.common.core.domain.AjaxResult
-     **/
+        *@Author hst
+        *@Description //TODO 药物新增页面请求接口
+        *@Date 2:01 下午 2019/12/25
+        *@Param [file, sysDrug]
+        * @return com.ruoyi.common.core.domain.AjaxResult
+        **/
     @RequiresPermissions("system:drug:add")
     @Log(title = "药物管理", businessType = BusinessType.INSERT)
     @PostMapping("/add")
@@ -95,7 +97,8 @@ public class SystemDrugController extends BaseController {
         String filePath = Global.getUploadPath();
         // 上传并返回新文件名称
         String fileName = FileUploadUtils.upload(filePath, file);
-        String url = serverConfig.getUrl() + fileName;
+        String urlBase = serverConfig.getUrl() + fileName;
+        String url = urlBase.substring(urlBase.indexOf("/p"));
         sysDrug.setCreateBy(ShiroUtils.getLoginName());
         sysDrug.setCreateTime(new Date());
         sysDrug.setImageUrl(url);
@@ -108,13 +111,14 @@ public class SystemDrugController extends BaseController {
         return error();
     }
 
+
     /**
-     *@Author hst
-     *@Description //TODO 药品信息删除接口
-     *@Date 上午8:40 2019/12/21
-     *@Param [ids]   传入宠物id数组 支持批量删除
-     * @return com.ruoyi.common.core.domain.AjaxResult
-     **/
+        *@Author hst
+        *@Description //TODO 药品信息删除接
+        *@Date 2:01 下午 2019/12/25
+        *@Param [ids]
+        * @return com.ruoyi.common.core.domain.AjaxResult
+        **/
     @RequiresPermissions("system:drug:remove")
     @Log(title = "药品管理", businessType = BusinessType.INSERT)
     @PostMapping("/remove")
@@ -125,5 +129,46 @@ public class SystemDrugController extends BaseController {
         } catch (Exception e) {
             return error(e.getMessage());
         }
+    }
+
+    /**
+     * 修改药物信息页面跳转接口
+     */
+    @GetMapping("/edit/{drugId}")
+    public String edit(@PathVariable("drugId") String drugId, ModelMap mmap) {
+        mmap.put("drugs", sysDrugService.findDrugById(drugId));
+        mmap.put("types", sysDrugService.getDrugType());
+        return prefix + "/edit";
+    }
+
+    /**
+        *@Author hst
+        *@Description //TODO 修改药品信息页面数据提交接
+        *@Date 2:01 下午 2019/12/25
+        *@Param [file, sysDrug]
+        * @return com.ruoyi.common.core.domain.AjaxResult
+        **/
+    @RequiresPermissions("system:drug:edit")
+    @Log(title = "药品管理", businessType = BusinessType.INSERT)
+    @PostMapping("/edit")
+    @ResponseBody
+    public AjaxResult editSave(@RequestParam("file") MultipartFile file, @Validated SysDrug sysDrug) throws IOException {
+        // 上传文件路径
+        String filePath = Global.getUploadPath();
+        // 上传并返回新文件名称
+        String fileName = FileUploadUtils.upload(filePath, file);
+        String urlBase = serverConfig.getUrl() + fileName;
+        String url = urlBase.substring(urlBase.indexOf('/'));
+        sysDrug.setCreateBy(ShiroUtils.getLoginName());
+        sysDrug.setCreateTime(new Date());
+        sysDrug.setImageUrl(url);
+        sysDrug.setDel_flag("0");
+        sysDrug.setUpdateBy(ShiroUtils.getLoginName());
+        sysDrug.setUpdateTime(new Date());
+        int result = sysDrugService.editDrug(sysDrug);
+        if (result > 0) {
+            return success();
+        }
+        return error();
     }
 }

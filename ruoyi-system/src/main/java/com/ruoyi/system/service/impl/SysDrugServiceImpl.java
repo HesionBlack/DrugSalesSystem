@@ -57,4 +57,14 @@ public class SysDrugServiceImpl implements ISysDrugService {
         String[] id = ids.split(",");
         return sysDrugMapper.deleteDrugByIds(id);
     }
+
+    @Override
+    public SysDrug findDrugById(String drugId) {
+        return sysDrugMapper.findDrugById(drugId);
+    }
+
+    @Override
+    public int editDrug(SysDrug sysDrug) {
+        return sysDrugMapper.editDrug(sysDrug);
+    }
 }

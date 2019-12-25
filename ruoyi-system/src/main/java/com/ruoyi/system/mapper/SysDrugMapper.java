@@ -55,8 +55,10 @@ public interface SysDrugMapper {
             " sys_drug " +
             "VALUE(REPLACE(UUID(), '-', ''),#{dr.name},#{dr.dept},#{dr.validity},#{dr.price},#{dr.imageUrl},#{dr.typeId},#{dr.effect},#{dr.createTime},#{dr.createBy},#{dr.updateBy},#{dr.updateTime},#{dr.del_flag})")
     int saveDrug(@Param("dr") SysDrug sysDrug);
+
     @Select("SELECT  imageUrl  FROM sys_drug WHERE id=#{id}")
     String findImageUrl(String id);
+
     @Update("<script>" +
             "update sys_drug set del_flag = '1' where id in" +
             "<foreach collection=\"ids\" item=\"id\" open=\"(\" separator=\",\" close=\")\">" +
@@ -64,4 +66,16 @@ public interface SysDrugMapper {
             "</foreach> " +
             "</script>")
     int deleteDrugByIds(@Param("ids") String[] id);
+
+    @Select("SELECT * FROM sys_drug  where id=#{drugId}")
+    @Results(id = "sys_drugByid",
+            value = {
+                    @Result(property = "createTime", column = "create_time"),
+                    @Result(property = "updateTime", column = "update_time"),
+                    @Result(property = "sysDrugType", column = "typeId", one = @One(select = "com.ruoyi.system.mapper.SysDrugMapper.findDrugType", fetchType = FetchType.DEFAULT))
+            })
+    SysDrug findDrugById(String drugId);
+
+    @Update("UPDATE  sys_drug SET  name=#{e.name},dept=#{e.dept},validity=#{e.validity},price=#{e.price},imageUrl=#{e.imageUrl},typeId=#{e.typeId},effect=#{e.effect},updateBy=#{e.updateBy},update_time=#{e.updateTime} WHERE id=#{e.id}")
+    int editDrug(@Param("e") SysDrug sysDrug);
 }

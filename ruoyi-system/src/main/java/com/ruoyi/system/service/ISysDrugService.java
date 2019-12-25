@@ -24,4 +24,8 @@ public interface ISysDrugService {
     String findImageUrl(String id);
 
     int deleteDrugByIds(String ids);
+
+    SysDrug findDrugById(String drugId);
+
+    int editDrug(SysDrug sysDrug);
 }
