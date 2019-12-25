@@ -61,15 +61,22 @@ public class SystemDrugController extends BaseController {
         List<SysDrug> list = sysDrugService.selectDrugList(sysDrug);
         return getDataTable(list);
     }
-
+    /**
+     * 展示图片
+     */
+    @GetMapping("/showImage/{id}")
+    public String authDataScope(@PathVariable("id") String id, ModelMap mmap) {
+        mmap.put("imageUrl", sysDrugService.findImageUrl(id));
+        return prefix + "/showImage";
+    }
     /**
      * 药物增加页面跳转接口
      */
     @GetMapping("/add")
     @RequiresPermissions("system:drug:add")
     public String add(ModelMap mmap) {
-        List<SysDrugType> drugType = sysDrugService.getDrugType();
-        mmap.put("type",drugType);
+//        List<SysDrugType> drugType = sysDrugService.getDrugType();
+        mmap.put("types",sysDrugService.getDrugType());
         return prefix + "/add";
     }
     /**
@@ -99,5 +106,24 @@ public class SystemDrugController extends BaseController {
             return success();
         }
         return error();
+    }
+
+    /**
+     *@Author hst
+     *@Description //TODO 药品信息删除接口
+     *@Date 上午8:40 2019/12/21
+     *@Param [ids]   传入宠物id数组 支持批量删除
+     * @return com.ruoyi.common.core.domain.AjaxResult
+     **/
+    @RequiresPermissions("system:drug:remove")
+    @Log(title = "药品管理", businessType = BusinessType.INSERT)
+    @PostMapping("/remove")
+    @ResponseBody
+    public AjaxResult remove(String ids) {
+        try {
+            return toAjax(sysDrugService.deleteDrugByIds(ids));
+        } catch (Exception e) {
+            return error(e.getMessage());
+        }
     }
 }

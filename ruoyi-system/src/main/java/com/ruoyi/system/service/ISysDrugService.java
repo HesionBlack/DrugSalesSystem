@@ -20,4 +20,8 @@ public interface ISysDrugService {
     int saveDrug(SysDrug sysDrug);
 
     List<SysDrugType> getDrugType();
+
+    String findImageUrl(String id);
+
+    int deleteDrugByIds(String ids);
 }

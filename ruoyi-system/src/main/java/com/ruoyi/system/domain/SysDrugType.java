@@ -22,6 +22,7 @@ import lombok.Data;
  **/
 @Data
 public class SysDrugType extends BaseEntity {
-    private  String id;
+    private  Integer id;
     private String typename;
+    private String del_flag;
 }

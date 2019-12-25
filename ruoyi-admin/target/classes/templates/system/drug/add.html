@@ -30,8 +30,8 @@
 			<div class="form-group">
 				<label class="col-sm-3 control-label">药品类型：</label>
 				<div class="col-xs-4">
-					<select id="typeId" class="form-control select2-multiple" multiple>
-						<option th:each="type:${type}" th:value="${type.id}" th:text="${type.typeName}" th:disabled="${type.del_flag == '1'}"></option>
+					<select id="typeId" class="form-control">
+						<option th:each="type:${types}" th:value="${type.id}" th:text="${type.typename}" th:disabled="${type.del_flag == '1'}"></option>
 					</select>
 				</div>
 			</div>
@@ -70,37 +70,42 @@
 	}
 	function add() {
 		var name = $("input[name='name']").val();
-		var type = $("input[name='type']").val();
-		var sex = $('#sex option:selected').val();
-		var fostStatu= $('#fostStatu option:selected').val();
-		var remark = $('#remark').val();
-		var formData = new FormData();
+		var dept = $("input[name='dept']").val();
+		var typeId = $('#typeId option:selected').val();
+		var validity = $('#validity').val();
+		var price = $('#price').val();
+		var effect = $('#effect').val();
+
+
 		if ($('#filePath')[0].files[0] == null) {
 			$.modal.alertWarning("请先选择文件路径");
 			return false;
 		}
+		var formData = new FormData();
 		formData.append('name', name);
-		formData.append('type', type);
-		formData.append('sex', sex);
-		formData.append('fostStatu', fostStatu);
-		formData.append('remark', remark);
+		formData.append('dept', dept);
+		formData.append('typeId', typeId);
+		formData.append('validity', validity);
+		formData.append('price', price);
+		formData.append('effect', effect);
 		formData.append('fileName', $("#fileName").val());
 		formData.append('file', $('#filePath')[0].files[0]);
 		$.ajax({
 			processData: false,
 			contentType: false,
-			cache : false,
-			type : "POST",
-			url : ctx + "system/pet/add",
-			data :formData,
-			async : false,
-			error : function(request) {
+			cache: false,
+			type: "POST",
+			url: ctx + "system/drug/add",
+			data: formData,
+			async: false,
+			error: function (request) {
 				$.modal.alertError("系统错误");
 			},
-			success : function(data) {
+			success: function (data) {
 				$.operate.successCallback(data);
 			}
 		});
+	}
 </script>
 </body>
 </html>

@@ -1153,7 +1153,10 @@ var table = {
                     $.modal.alertError(result.msg);
                 }
                 $.modal.closeLoading();
-            }
+            },
+			showImage: function (id) {
+				$.modal.open("图片预览","/system/drug/showImage/"+id);
+			},
         },
         // 校验封装处理
         validate: {

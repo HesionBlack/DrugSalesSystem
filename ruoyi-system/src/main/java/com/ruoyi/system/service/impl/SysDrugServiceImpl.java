@@ -39,11 +39,22 @@ public class SysDrugServiceImpl implements ISysDrugService {
 
     @Override
     public int saveDrug(SysDrug sysDrug) {
-        return 0;
+        return sysDrugMapper.saveDrug(sysDrug);
     }
 
     @Override
     public List<SysDrugType> getDrugType() {
         return sysDrugMapper.getDrugType();
+    }
+
+    @Override
+    public String findImageUrl(String id) {
+        return sysDrugMapper.findImageUrl(id);
+    }
+
+    @Override
+    public int deleteDrugByIds(String ids) {
+        String[] id = ids.split(",");
+        return sysDrugMapper.deleteDrugByIds(id);
     }
 }
