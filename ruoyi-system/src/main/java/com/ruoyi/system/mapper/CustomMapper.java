@@ -1,6 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.system.domain.SysDrug;
+import com.ruoyi.system.domain.SysOrder;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 
@@ -25,5 +26,6 @@ public interface CustomMapper {
         })
     List<SysDrug> selectDrugList();
 
-
+@Insert("INSERT INTO  custom_order VALUE(#{o.id},#{o.dId},#{o.uId},#{o.createTime},#{o.updateTime})")
+    int createOrder(@Param("o") SysOrder sysOrder);
 }

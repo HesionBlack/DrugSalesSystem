@@ -6,20 +6,10 @@
     <th:block th:include="include :: ztree-css"/>
 </head>
 <body class="gray-bg">
-<div class="ui-layout-center container" >
-<!--        <div class="row" th:each="drug:${drugs}" >-->
-<!--                    <li class="span5">-->
-<!--                        <div class="thumbnail">-->
-<!--                            <img th:src="*{drug.imageUrl}" alt="头">-->
-<!--                            <div class="caption">-->
-<!--                                <h3 th:text="*{drug.name}"></h3>-->
-<!--                                <p th:text="*{drug.effect}">.</p>-->
-<!--                                <span>上架时间：<p th:text="${#dates.format(drug.createTime,'yyyy-MM-dd HH:mm')}">.</p></span>-->
-<!--                                <p><a  class="btn btn-primary" role="button">购买</a> <a href="#" class="btn btn-default" role="button">查看详情</a></p>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </li>-->
-<!--            </div>-->
+<div class="jumbotron">
+    <h1>药品浏览</h1>
+    <h2>品质放心药，祝您药到病除。</h2>
+</div>
     <div class="container">
         <ul class="thumbnails"  style="list-style: none">
             <li class="span5" th:each="drug:${drugs}">
@@ -31,8 +21,9 @@
                             <p th:text="*{drug.effect}">.</p>
                             <span>上架时间：<p th:text="${#dates.format(drug.createTime,'yyyy-MM-dd HH:mm')}">.</p></span>
                             <p>
-                                <a  th:onclick="|buyDrug(*{drug.id})|" class="btn btn-primary" role="button">购买</a>
-                                <a href="#" class="btn btn-default" role="button">加入购物车</a>
+<!--                                <a class="btn btn-primary" th:οnclick="'javascript:buyDrug(\''+*{drug.id}+'\');'">购买</a>-->
+                                <a class="btn btn-primary" onclick="buyDrug(this.getAttribute('data-id'))" th:data-id="*{drug.id}">购买</a>
+                                <a href="#" class="btn btn-info" role="button">加入购物车</a>
                                 <a href="#" class="btn btn-default" role="button">查看详情</a>
                             </p>
                         </div>
@@ -40,17 +31,27 @@
                 </div>
             </li>
         </ul>
-</div>
+    </div>
+<script type="text/javascript">
+    function buyDrug(row) {
+           // console.log("buyDrug ",row);
+        $.ajax({
+            cache : true,
+            type : "POST",
+            url : ctx + "custom/order/buy/"+row,
+            async : false,
+            error : function(request) {
+                $.modal.alertError("系统错误");
+            },
+            success : function(data) {
+                $.modal.alertSuccess("购买成功，我们会尽快安排发货，订单详情请到我的订单查看!");
+            }
+        });
+    }
+</script>
 
 <th:block th:include="include :: footer"/>
 <th:block th:include="include :: layout-latest-js"/>
 <th:block th:include="include :: ztree-js"/>
-<script th:inline="javascript">
-
-
-
-
-
-</script>
 </body>
 </html>
