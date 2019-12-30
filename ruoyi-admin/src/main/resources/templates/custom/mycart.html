@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('药品列表')"/>
+    <th:block th:include="include :: layout-latest-css"/>
+    <th:block th:include="include :: ztree-css"/>
+</head>
+<body class="gray-bg">
+<div class="jumbotron">
+    <h1>药品浏览</h1>
+    <h2>品质放心药，祝您药到病除。</h2>
+</div>
+    <div class="container">
+        <ul class="thumbnails"  style="list-style: none">
+            <li class="span5" th:each="drug:${drugs}">
+                <div class="col-sm-6 col-md-4" >
+                    <div class="thumbnail">
+                        <img th:src="*{drug.imageUrl}" th:alt="*{drug.imageUrl}">
+                        <div class="caption">
+                            <h3 th:text="*{drug.name}"></h3>
+                            <p th:text="*{drug.effect}">.</p>
+                            <span>上架时间：<p th:text="${#dates.format(drug.createTime,'yyyy-MM-dd HH:mm')}">.</p></span>
+                            <p>
+<!--                                <a class="btn btn-primary" th:οnclick="'javascript:buyDrug(\''+*{drug.id}+'\');'">购买</a>-->
+                                <a class="btn btn-primary" onclick="buyDrug(this.getAttribute('data-id'))" th:data-id="*{drug.id}">购买</a>
+                                <a href="#" class="btn btn-info" role="button">加入购物车</a>
+                                <a href="#" class="btn btn-default" role="button">查看详情</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+<script type="text/javascript">
+    function buyDrug(row) {
+        var name = $('#name').val();
+        var price = $('#price').val();
+
+        var formData = new FormData();
+        formData.append('price', price);
+
+        $.ajax({
+            processData: false,
+            contentType: false,
+            cache: false,
+            type: "POST",
+            url : ctx + "custom/order/buy/"+row,
+            data: formData,
+            async: false,
+            error: function (request) {
+                $.modal.alertError("系统错误");
+            },
+            success: function (data) {
+                $.modal.alertSuccess("购买成功！请到我的订单查看详情");
+            }
+        });
+    }
+</script>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: layout-latest-js"/>
+<th:block th:include="include :: ztree-js"/>
+</body>
+</html>
