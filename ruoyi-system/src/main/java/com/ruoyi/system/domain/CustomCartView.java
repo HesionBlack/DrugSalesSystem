@@ -1,7 +1,7 @@
 package com.ruoyi.system.domain;/**
- * ClassName: SysOrder <br/>
+ * ClassName: CustomCartView <br/>
  * Description: <br/>
- * date: 2019/12/26 10:21 上午<br/>
+ * date: 2020/2/10 16:08<br/>
  *
  * @author Hesion<br />
  * @version
@@ -14,17 +14,16 @@ import lombok.Data;
 /**
  * @program: ruoyi
  *
- * @description: 订单实体类
+ * @description:
  *
  * @author: hesion
  *
- * @create: 2019-12-26 10:21
+ * @create: 2020-02-10 16:08
  **/
 @Data
-public class SysOrder extends BaseEntity {
+public class CustomCartView extends BaseEntity {
     private String id;
-    private String dId;
     private Long uId;
-    private Integer num;
+    private String name;
 
 }

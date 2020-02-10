@@ -2,6 +2,7 @@ package com.ruoyi.system.service;
 
 import com.ruoyi.system.domain.SysDrug;
 import com.ruoyi.system.domain.SysOrder;
+import com.ruoyi.system.domain.SysOrderView;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface ICustomOrderService {
     List<SysDrug> selectDrugList();
 
     int createOrder(SysOrder sysOrder);
+
+    List<SysOrderView> selectCustomerOrder(Long userId);
 }

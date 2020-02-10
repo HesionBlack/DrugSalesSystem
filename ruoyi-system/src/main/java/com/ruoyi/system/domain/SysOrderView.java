@@ -8,6 +8,9 @@ package com.ruoyi.system.domain;/**
  * @since JDK 1.8
  */
 
+import com.ruoyi.common.core.domain.BaseEntity;
+import lombok.Data;
+
 /**
  * @program: ruoyi
  *
@@ -17,5 +20,13 @@ package com.ruoyi.system.domain;/**
  *
  * @create: 2019-12-26 13:42
  **/
-public class SysOrderView {
+@Data
+public class SysOrderView extends BaseEntity {
+   private String id;
+   private String name;
+   private String dept;
+   private String validity;
+   private Double price;
+   private Integer num;
+   private Double totalprice;
 }

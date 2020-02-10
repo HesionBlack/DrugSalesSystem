@@ -10,11 +10,14 @@ package com.ruoyi.web.controller.custom;/**
 
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysDrug;
 import com.ruoyi.system.domain.SysOrder;
+import com.ruoyi.system.domain.SysOrderView;
 import com.ruoyi.system.mapper.SysDrugMapper;
 import com.ruoyi.system.service.ICustomOrderService;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -45,8 +48,8 @@ public class CustomOrderController extends BaseController {
     }
 
     @GetMapping("/orderList")
-    public String orderList(){
-        return prefix+"/orderList";
+    public String orderList() {
+        return prefix + "/orderList";
     }
 
     @PostMapping("/buy/{drugId}")
@@ -56,10 +59,27 @@ public class CustomOrderController extends BaseController {
         Long userId = ShiroUtils.getUserId();
         sysOrder.setUId(userId);
         sysOrder.setDId(drugId);
+        sysOrder.setNum(1);
+//        sysOrder.setTotalprice();
         try {
             return toAjax(customOrderService.createOrder(sysOrder));
-        }catch (Exception e){
-             return error(e.getMessage());
+        } catch (Exception e) {
+            return error(e.getMessage());
         }
+    }
+
+    @GetMapping("/myOrder")
+    public String sysOrderViewsPage() {
+        return prefix + "/myOrder";
+    }
+
+    @RequiresPermissions("system:myOrder:view")
+    @PostMapping("/myOrder")
+    @ResponseBody
+    public TableDataInfo sysOrderViews() {
+        startPage();
+        Long userId = ShiroUtils.getUserId();
+        List<SysOrderView> sysOrderViews = customOrderService.selectCustomerOrder(userId);
+        return getDataTable(sysOrderViews);
     }
 }

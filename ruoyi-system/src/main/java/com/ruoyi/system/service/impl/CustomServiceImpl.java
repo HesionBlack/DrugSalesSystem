@@ -11,6 +11,7 @@ package com.ruoyi.system.service.impl;/**
 import com.ruoyi.common.utils.orderNumUtils.OrderCodeFactory;
 import com.ruoyi.system.domain.SysDrug;
 import com.ruoyi.system.domain.SysOrder;
+import com.ruoyi.system.domain.SysOrderView;
 import com.ruoyi.system.mapper.CustomMapper;
 import com.ruoyi.system.service.ICustomOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,5 +46,10 @@ public class CustomServiceImpl implements ICustomOrderService {
         sysOrder.setId(orderCode);
         sysOrder.setCreateTime(new Date());
         return customMapper.createOrder(sysOrder);
+    }
+
+    @Override
+    public List<SysOrderView> selectCustomerOrder(Long userId) {
+        return customMapper.selectCustomerOrder(userId);
     }
 }
