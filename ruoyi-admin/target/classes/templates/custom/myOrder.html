@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="include :: header('我的订单')"/>
+    <th:block th:include="include :: layout-latest-css"/>
+    <th:block th:include="include :: ztree-css"/>
+</head>
+<body class="gray-bg">
+<div class="ui-layout-center">
+    <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<th:block th:include="include :: footer"/>
+<th:block th:include="include :: layout-latest-js"/>
+<th:block th:include="include :: ztree-js"/>
+<script th:inline="javascript">
+    var prefix = ctx + "custom/order";
+
+    $(function () {
+        var panehHidden = false;
+        if ($(this).width() < 769) {
+            panehHidden = true;
+        }
+        $('body').layout({initClosed: panehHidden, west__size: 185});
+        queryUserList();
+    });
+
+    function queryUserList() {
+        var options = {
+            url: prefix + "/myOrder",
+            sortName: "createTime",
+            sortOrder: "desc",
+            modalName: "我的订单",
+
+            columns: [{
+                checkbox: true,
+            },
+                {
+                    field: 'id',
+                    title: '订单编号',
+                },
+                {
+                    field: 'name',
+                    title: '药物名称',
+                },
+                {
+                    field: 'dept',
+                    title: '制药公司'
+                },
+                {
+                    field: 'validity',
+                    title: '有效期'
+                },
+                {
+                    field: 'price',
+                    title: '单价'
+                },
+                {
+                    field: 'num',
+                    title: '数量'
+                },
+                {
+                    field: 'totalprice',
+                    title: '总价'
+                },
+                {
+                    field: 'createTime',
+                    title: '下单时间',
+                    sortable: true
+                }]
+        };
+        $.table.init(options);
+    }
+
+
+</script>
+</body>
+</html>
