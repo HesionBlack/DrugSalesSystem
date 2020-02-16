@@ -10,42 +10,62 @@
     <h1>药品浏览</h1>
     <h2>品质放心药，祝您药到病除。</h2>
 </div>
-    <div class="container">
-        <ul class="thumbnails"  style="list-style: none">
-            <li class="span5" th:each="drug:${drugs}">
-                <div class="col-sm-6 col-md-4" >
-                    <div class="thumbnail">
-                        <img th:src="*{drug.imageUrl}" th:alt="*{drug.imageUrl}">
-                        <div class="caption">
-                            <h3 th:text="*{drug.name}"></h3>
-                            <p th:text="*{drug.effect}">.</p>
-                            <span>上架时间：<p th:text="${#dates.format(drug.createTime,'yyyy-MM-dd HH:mm')}">.</p></span>
-                            <p>
-<!--                                <a class="btn btn-primary" th:οnclick="'javascript:buyDrug(\''+*{drug.id}+'\');'">购买</a>-->
-                                <a class="btn btn-primary" onclick="buyDrug(this.getAttribute('data-id'))" th:data-id="*{drug.id}">购买</a>
-                                <a href="#" class="btn btn-info" role="button">加入购物车</a>
-                                <a href="#" class="btn btn-default" role="button">查看详情</a>
-                            </p>
-                        </div>
+<div class="container">
+    <ul class="thumbnails" style="list-style: none">
+        <li class="span5" th:each="drug:${drugs}">
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <img th:src="*{drug.imageUrl}" th:alt="*{drug.imageUrl}">
+                    <div class="caption">
+                        <h3 th:text="*{drug.name}"></h3>
+                        <p th:text="*{drug.effect}">.</p>
+                        <span>上架时间：<p th:text="${#dates.format(drug.createTime,'yyyy-MM-dd HH:mm')}">.</p></span>
+                        <p>
+                            <!--                                <a class="btn btn-primary" th:οnclick="'javascript:buyDrug(\''+*{drug.id}+'\');'">购买</a>-->
+                            <a class="btn btn-primary" onclick="buyDrug(this.getAttribute('data-id'))"
+                               th:data-id="*{drug.id}">购买</a>
+                            <a href="#" class="btn btn-info" role="button"
+                               onclick="addMycart(this.getAttribute('data-id'))" th:data-id="*{drug.id}">加入购物车</a>
+                            <a href="#" class="btn btn-default" role="button">查看详情</a>
+                        </p>
                     </div>
                 </div>
-            </li>
-        </ul>
-    </div>
+            </div>
+        </li>
+    </ul>
+</div>
 <script type="text/javascript">
     function buyDrug(row) {
-           // console.log("buyDrug ",row);
+        // console.log("buyDrug ",row);
         $.ajax({
-            cache : true,
-            type : "POST",
-            url : ctx + "custom/order/buy/"+row,
-            async : false,
-            error : function(request) {
+            cache: true,
+            type: "POST",
+            url: ctx + "custom/order/buy/" + row,
+            async: false,
+            error: function (request) {
                 $.modal.alertError("系统错误");
             },
-            success : function(data) {
-                if(data.)
-                $.modal.alertSuccess("购买成功，我们会尽快安排发货，订单详情请到我的订单查看!");
+            success: function (data) {
+                if (data.code === 0) {
+                    $.modal.alertSuccess("购买成功，我们会尽快安排发货，订单详情请到我的订单查看!");
+                }
+            }
+        });
+    }
+
+    function addMycart(dId) {
+        $.ajax({
+            cache: true,
+            type: "POST",
+            url: ctx + "custom/cart/addMycart/" + dId,
+            async: false,
+            error: function (request) {
+                $.modal.alertError("系统错误");
+            },
+            success: function (data) {
+                if (data.code === 0) {
+                    $.modal.alertSuccess("加入购物车成功，详情请到我的购物车查看!");
+                }
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.ruoyi.system.service;
 
+import com.ruoyi.system.domain.CustomCart;
 import com.ruoyi.system.domain.CustomCartView;
 
 import java.util.List;
@@ -14,4 +15,10 @@ import java.util.List;
  */
 public interface ICustomCartService {
     List<CustomCartView> getMycart(Long userId);
+
+    int addMycart(CustomCart customCart);
+
+    CustomCart hasAddBefore(String dId,Long uId);
+
+    Integer updateCart(CustomCart hasCart);
 }

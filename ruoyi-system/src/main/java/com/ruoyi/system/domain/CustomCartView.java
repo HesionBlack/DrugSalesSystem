@@ -13,17 +13,19 @@ import lombok.Data;
 
 /**
  * @program: ruoyi
- *
  * @description:
- *
  * @author: hesion
- *
  * @create: 2020-02-10 16:08
  **/
 @Data
 public class CustomCartView extends BaseEntity {
     private String id;
     private Long uId;
-    private String name;
-
+    private String dname;
+    private Double price;
+    private Integer cartnum;
+    private String imgUrl;
 }
+
+
+

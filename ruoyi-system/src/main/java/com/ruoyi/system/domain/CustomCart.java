@@ -13,19 +13,15 @@ import lombok.Data;
 
 /**
  * @program: ruoyi
- *
  * @description:
- *
  * @author: hesion
- *
  * @create: 2020-02-10 16:02
  **/
 @Data
 public class CustomCart extends BaseEntity {
-        private String id;
-        private String name;
-        private String dept;
-        private Double price;
-        private Integer num;
-        private Double totalprice;
+    private String id;
+    private Long uId;
+    private String dId;
+    private Integer cartnum;
+
 }
