@@ -27,4 +27,7 @@ public interface CustomCartMapper {
 
     @Select("SELECT * FROM v_custom_cart WHERE uId=#{userId}")
     List<CustomCartView> getMycart(Long userId);
+
+    @Delete("DELETE FROM custom_cart WHERE id=#{sId} AND uId=#{userId}")
+    int removeShop(@Param("sId") String dId, @Param("userId") Long userId);
 }

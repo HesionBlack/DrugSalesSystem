@@ -1,69 +1,59 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<link rel="stylesheet" href="../static/css/CartStyle.css" th:href="@{/css/CartStyle.css}"/>
-<script type="text/javascript" src="../static/js/demo.js" th:src="@{/js/demo.js}"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="../static/css/CartStyle.css" th:href="@{/css/CartStyle.css}"/>
+    <script type="text/javascript" src="../static/js/demo.js" th:src="@{/js/demo.js}"></script>
+    <script type="text/javascript" src="../static/js/selfFunc.js" th:src="@{/js/selfFunc.js}"></script>
+	<script type="text/javascript" src="../static/js/jquery.min.js" th:src="@{js/jquery.min.js}"></script>
 </head>
 <body>
 
 <div class="catbox">
 
-	<table id="cartTable">
-		<thead>
-			<tr>
-				<th><label><input class="check-all check" type="checkbox"/>&nbsp;全选</label></th>
-				<th>商品</th>
-				<th>单价</th>
-				<th>数量</th>
-				<th>小计</th>
-				<th>操作</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="cart:${mycart}">
-				<td class="checkbox"><input class="check-one check" type="checkbox"/></td>
-				<td class="goods"><img th:src="${cart.imgUrl}" alt=""/><span th:text="${cart.dname}"></span></td>
-				<td class="price" th:text="${cart.price}"></td>
-				<td class="count"><span class="reduce"></span><input class="count-input" type="text" th:value="${cart.cartnum}"/><span class="add">+</span></td>
-				<td class="subtotal" th:text="${#numbers.formatDecimal(cart.price*cart.cartnum ,0,'COMMA',2,'POINT')}"></td>
-				<td class="operation"><span class="delete" onclick="removeCart(this.getAttribute('data-id'))" th:data-id="*{cart.id}">删除</span></td>
-			</tr>
-		</tbody>
-	</table>
-	
-	<div class="foot" id="foot">
-		<label class="fl select-all"><input type="checkbox" class="check-all check"/>&nbsp;全选</label>
-		<a class="fl delete" id="deleteAll" href="javascript:;">删除</a>
-		<div class="fr closing">结 算</div>
-		<div class="fr total">合计：￥<span id="priceTotal">0.00</span></div>
-		<div class="fr selected" id="selected">已选商品<span id="selectedTotal">0</span>件<span class="arrow up">︽</span><span class="arrow down">︾</span></div>
-		<div class="selected-view">
-			<div id="selectedViewList" class="clearfix">
-				<div><span>取消选择</span></div>
-			</div>
-			<span class="arrow">◆<span>◆</span></span>
-		</div>
-	</div>
+    <table id="cartTable">
+        <thead>
+        <tr>
+            <th><label><input class="check-all check" type="checkbox"/>&nbsp;全选</label></th>
+            <th>商品</th>
+            <th>单价</th>
+            <th>数量</th>
+            <th>小计</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cart:${mycart}">
+            <td class="checkbox"><input class="check-one check" type="checkbox"/></td>
+            <td class="goods"><img th:src="${cart.imgUrl}" alt=""/><span th:text="${cart.dname}"></span></td>
+            <td class="price" th:text="${cart.price}"></td>
+            <td class="count"><span class="reduce"></span><input class="count-input" type="text"
+                                                                 th:value="${cart.cartnum}"/><span class="add">+</span>
+            </td>
+            <td class="subtotal" th:text="${#numbers.formatDecimal(cart.price*cart.cartnum ,0,'COMMA',2,'POINT')}"></td>
+            <td class="operation"><span class="delete" onclick="removeCart(this.getAttribute('data-id'))"
+                                        th:data-id="*{cart.id}">删除</span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="foot" id="foot">
+        <label class="fl select-all"><input type="checkbox" class="check-all check"/>&nbsp;全选</label>
+        <a class="fl delete" id="deleteAll" href="javascript:;">删除</a>
+        <div class="fr closing">结 算</div>
+        <div class="fr total">合计：￥<span id="priceTotal">0.00</span></div>
+        <div class="fr selected" id="selected">已选商品<span id="selectedTotal">0</span>件<span
+                class="arrow up">︽</span><span class="arrow down">︾</span></div>
+        <div class="selected-view">
+            <div id="selectedViewList" class="clearfix">
+                <div><span>取消选择</span></div>
+            </div>
+            <span class="arrow">◆<span>◆</span></span>
+        </div>
+    </div>
 
 </div>
-<script type="javascript">
-	function removeCart(dId) {
-		$.ajax({
-			cache: true,
-			type: "POST",
-			url: ctx + "custom/cart/remove/" + row,
-			async: false,
-			error: function (request) {
-				$.modal.alertError("系统错误");
-			},
-			success: function (data) {
-				if (data.code === 0) {
-					$.modal.alertSuccess("购买成功，我们会尽快安排发货，订单详情请到我的订单查看!");
-				}
-			}
-		});
-	}
-</script>
+<th:block th:include="include :: footer"/>
 </body>
 </html>

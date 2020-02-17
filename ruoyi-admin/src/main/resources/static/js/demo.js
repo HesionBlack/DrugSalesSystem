@@ -129,10 +129,24 @@ window.onload = function () {
                     }
                     break;
                 case 'delete': //点击了删除
-                    var conf = confirm('确定删除此商品吗？');
-                    if (conf) {
-                        this.parentNode.removeChild(this);
-                    }
+                    // var conf = confirm('确定删除此商品吗？');
+                    // if (conf) {
+                    //     this.parentNode.removeChild(this);
+                    //     // $.ajax({
+                    //     //     cache: true,
+                    //     //     type: "POST",
+                    //     //     url: ctx + "custom/order/buy/" + row,
+                    //     //     async: false,
+                    //     //     error: function (request) {
+                    //     //         $.modal.alertError("系统错误");
+                    //     //     },
+                    //     //     success: function (data) {
+                    //     //         if (data.code === 0) {
+                    //     //             $.modal.alertSuccess("购买成功，我们会尽快安排发货，订单详情请到我的订单查看!");
+                    //     //         }
+                    //     //     }
+                    //     // });
+                    // }
                     break;
             }
             getTotal();

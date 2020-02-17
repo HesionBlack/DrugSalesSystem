@@ -26,7 +26,7 @@
                                th:data-id="*{drug.id}">购买</a>
                             <a href="#" class="btn btn-info" role="button"
                                onclick="addMycart(this.getAttribute('data-id'))" th:data-id="*{drug.id}">加入购物车</a>
-                            <a href="#" class="btn btn-default" role="button">查看详情</a>
+                            <a href="#" class="btn btn-default" role="button" onclick="leaveAsk(this.getAttribute('data-id'))" th:data-id="*{drug.id}">留言咨询</a>
                         </p>
                     </div>
                 </div>
@@ -35,6 +35,7 @@
     </ul>
 </div>
 <script type="text/javascript">
+
     function buyDrug(row) {
         // console.log("buyDrug ",row);
         $.ajax({
@@ -68,6 +69,11 @@
                 }
             }
         });
+    }
+
+    function leaveAsk(dId) {
+        var prefix = ctx + 'custom/leaveAsk/';
+        $.modal.open("给驿站留言", prefix + dId);
     }
 </script>
 

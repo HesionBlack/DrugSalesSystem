@@ -19,6 +19,7 @@ import com.ruoyi.system.service.ICustomCartService;
 import com.ruoyi.system.service.ICustomOrderService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.tomcat.jni.Mmap;
+import org.aspectj.weaver.loadtime.Aj;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -79,6 +80,19 @@ public class CustomCartController extends BaseController {
         }
     }
 
+    @PostMapping("/remove/{sId}")
+    @ResponseBody
+    public AjaxResult removeShop(@PathVariable String sId){
+        Long userId = ShiroUtils.getUserId();
+
+        int isRemove = customCartService.removeShop(sId,userId);
+        if (isRemove >=1 ){
+            return AjaxResult.success();
+        }else {
+            return AjaxResult.error("商品移除失败,请重试!");
+        }
+
+    }
 
 
 }

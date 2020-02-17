@@ -49,4 +49,9 @@ public class CustomCartServiceimpl implements ICustomCartService {
     public Integer updateCart(CustomCart hasCart) {
         return customCartMapper.updateCart(hasCart);
     }
+
+    @Override
+    public int removeShop(String dId, Long userId) {
+        return customCartMapper.removeShop(dId,userId);
+    }
 }

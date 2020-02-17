@@ -21,4 +21,6 @@ public interface ICustomCartService {
     CustomCart hasAddBefore(String dId,Long uId);
 
     Integer updateCart(CustomCart hasCart);
+
+    int removeShop(String dId, Long userId);
 }
