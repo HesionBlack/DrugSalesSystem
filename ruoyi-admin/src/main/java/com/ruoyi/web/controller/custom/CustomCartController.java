@@ -48,8 +48,10 @@ public class CustomCartController extends BaseController {
     public String myCart(ModelMap mmap) {
         Long userId = ShiroUtils.getUserId();
         List<CustomCartView> mycart = customCartService.getMycart(userId);
-        mmap.put("mycart",mycart);
-        return prefix + "/myCart";
+        if (mycart != null) {
+            mmap.put("mycart", mycart);
+        }
+        return prefix + "/mycart";
     }
 
     @PostMapping("/addMycart/{dId}")
@@ -64,17 +66,17 @@ public class CustomCartController extends BaseController {
             customCart.setId(UUID.randomUUID().toString());
             customCart.setCartnum(1);
             Integer addMycart = customCartService.addMycart(customCart);
-            if(addMycart == 1){
+            if (addMycart == 1) {
                 return AjaxResult.success();
-            }else {
+            } else {
                 return AjaxResult.error("加入购物车失败,请重试");
             }
         } else {
-            hasCart.setCartnum(hasCart.getCartnum()+1);
+            hasCart.setCartnum(hasCart.getCartnum() + 1);
             Integer integer = customCartService.updateCart(hasCart);
-            if(integer == 1){
+            if (integer == 1) {
                 return AjaxResult.success();
-            }else {
+            } else {
                 return AjaxResult.error("加入购物车失败,请重试");
             }
         }
@@ -82,13 +84,13 @@ public class CustomCartController extends BaseController {
 
     @PostMapping("/remove/{sId}")
     @ResponseBody
-    public AjaxResult removeShop(@PathVariable String sId){
+    public AjaxResult removeShop(@PathVariable String sId) {
         Long userId = ShiroUtils.getUserId();
 
-        int isRemove = customCartService.removeShop(sId,userId);
-        if (isRemove >=1 ){
+        int isRemove = customCartService.removeShop(sId, userId);
+        if (isRemove >= 1) {
             return AjaxResult.success();
-        }else {
+        } else {
             return AjaxResult.error("商品移除失败,请重试!");
         }
 
