@@ -39,7 +39,7 @@ import java.util.UUID;
 @RequestMapping("/custom/cart")
 public class CustomCartController extends BaseController {
 
-    String prefix = "/custom";
+    String prefix = "custom";
 
     @Autowired
     ICustomCartService customCartService;
