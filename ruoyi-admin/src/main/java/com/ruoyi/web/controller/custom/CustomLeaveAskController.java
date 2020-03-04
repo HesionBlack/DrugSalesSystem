@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("custom/leaveAsk")
 public class CustomLeaveAskController extends BaseController {
-    String prefix = "/custom";
+    String prefix = "custom";
 
     @Autowired
     CustomLeaveMsgService customLeaveMsgService;

@@ -34,7 +34,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/custom/order")
 public class CustomOrderController extends BaseController {
-    String prefix = "/custom";
+    String prefix = "custom";
     @Autowired
     ICustomOrderService customOrderService;
     @Autowired

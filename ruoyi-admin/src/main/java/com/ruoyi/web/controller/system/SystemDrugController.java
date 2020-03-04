@@ -41,7 +41,7 @@ import java.util.List;
 @RequestMapping("/system/drug")
 public class SystemDrugController extends BaseController {
 
-    String prefix = "/system/drug";
+    String prefix = "system/drug";
     @Autowired
     private ServerConfig serverConfig;
     @Autowired
